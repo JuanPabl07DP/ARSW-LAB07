@@ -3,8 +3,6 @@
 
 ## Construción de un cliente 'grueso' con un API REST, HTML5, Javascript y CSS3. Parte I.
 
-### Trabajo individual o en parejas. A quienes tuvieron malos resultados en el parcial anterior se les recomienda hacerlo individualmente.
-
 ![](img/mock.png)
 
 * Al oprimir 'Get blueprints', consulta los planos del usuario dado en el formulario. Por ahora, si la consulta genera un error, sencillamente no se mostrará nada.
