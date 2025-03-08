@@ -12,13 +12,44 @@ const Blueprint = (function () {
         }, 0);
     };
 
+    const _drawBlueprint = function (blueprint) {
+        const canvas = document.getElementById("blueprint-canvas");
+        if (!canvas) return;
+
+        const ctx = canvas.getContext("2d");
+        const points = blueprint.points || [];
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (points.length > 0) {
+            ctx.beginPath();
+            ctx.strokeStyle = "#3498db";
+            ctx.lineWidth = 2;
+
+            ctx.moveTo(points[0].x, points[0].y);
+
+            for (let i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i].x, points[i].y);
+            }
+
+            ctx.stroke();
+
+            ctx.fillStyle = "#e74c3c"; // Red color
+            for (let i = 0; i < points.length; i++) {
+                ctx.beginPath();
+                ctx.arc(points[i].x, points[i].y, 3, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+        }
+    };
+
     return {
         setAuthor: function(authorName) {
             _author = authorName;
         },
 
         updateBlueprintsList: function() {
-            apimock.getBlueprintsByAuthor(_author, function(blueprints) {
+            apiclient.getBlueprintsByAuthor(_author, function(blueprints) {
                 _blueprintsList = blueprints.map(function(bp) {
                     return {
                         name: bp.name,
@@ -33,8 +64,17 @@ const Blueprint = (function () {
                         <tr>
                             <td>${bp.name}</td>
                             <td>${bp.points}</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm open-blueprint" 
+                                        data-blueprint="${bp.name}">Open</button>
+                            </td>
                         </tr>
                     `);
+                });
+
+                $(".open-blueprint").click(function () {
+                    const blueprintName = $(this).data("blueprint");
+                    Blueprint.drawBlueprintByAuthorAndName(_author, blueprintName);
                 });
 
                 const totalPoints = _blueprintsList.reduce(function(total, bp) {
@@ -45,11 +85,16 @@ const Blueprint = (function () {
             });
         },
 
-        getBlueprint: function (blueprintName, callback) {
-            apimock.getBlueprintsByNameAndAuthor(_author, blueprintName, function(blueprint) {
-                _currentBlueprint = blueprint;
-                if (callback) {
-                    callback(blueprint);
+        drawBlueprintByAuthorAndName: function (authorName, blueprintName) {
+            apiclient.getBlueprintsByNameAndAuthor(authorName, blueprintName, function(blueprint) {
+                if (blueprint) {
+                    _currentBlueprint = blueprint;
+
+                    $("#current-blueprint-name").text(blueprintName);
+
+                    _drawBlueprint(blueprint);
+                } else {
+                    console.error("Blueprint not found:", blueprintName);
                 }
             });
         },
