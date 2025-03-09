@@ -1,5 +1,8 @@
 ### Escuela Colombiana de Ingeniería
-### Arquiecturas de Software
+### Arquitecturas de Software
+
+### ***Realizado por:***
+- **Juan Pablo Daza Pereira**
 
 ## Construción de un cliente 'grueso' con un API REST, HTML5, Javascript y CSS3. Parte I.
 
@@ -129,4 +132,16 @@
 
 ![...](img/img_7.png)
 
+Probamos insertando nuevas peticiones por medio de Insomnia para probar el funcionamiento de el API REST:
+
+![...](img/img_8.png)
+
+![...](img/img_9.png)
+
+![...](img/img_10.png)
+
+![...](img/img_11.png)
+
 14. Revise la [documentación y ejemplos de los estilos de Bootstrap](https://v4-alpha.getbootstrap.com/examples/) (ya incluidos en el ejercicio), agregue los elementos necesarios a la página para que sea más vistosa, y más cercana al mock dado al inicio del enunciado.
+
+![...](img/img_12.png)
