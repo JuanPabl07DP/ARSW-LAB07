@@ -1,10 +1,9 @@
 // Blueprint App Module
 const app = (function() {
-    // Private variables
     let _author = "";
     let _blueprints = [];
     let _currentBlueprint = null;
-    let _module = apiclient; // By default use the real API client
+    let _module = apiclient;
     let _points = [];
 
     let _canvas = null;
@@ -42,6 +41,7 @@ const app = (function() {
         $("#current-blueprint-name").text(_currentBlueprint.name);
 
         _ctx.beginPath();
+        _ctx.strokeStyle = 'black';
 
         if (_currentBlueprint.points.length > 0) {
             _ctx.moveTo(_currentBlueprint.points[0].x, _currentBlueprint.points[0].y);
@@ -51,27 +51,13 @@ const app = (function() {
             }
 
             _ctx.stroke();
-        }
 
-        if (_points.length > 0) {
-            _ctx.beginPath();
-            _ctx.strokeStyle = 'blue';
-
-            if (_currentBlueprint.points.length > 0) {
-                const lastOrigPoint = _currentBlueprint.points[_currentBlueprint.points.length - 1];
-                _ctx.moveTo(lastOrigPoint.x, lastOrigPoint.y);
-            } else if (_points.length > 0) {
-                _ctx.moveTo(_points[0].x, _points[0].y);
-                if (_points.length === 1) {
-                    _ctx.arc(_points[0].x, _points[0].y, 2, 0, Math.PI * 2);
-                }
+            _ctx.fillStyle = 'red';
+            for (let i = 0; i < _currentBlueprint.points.length; i++) {
+                _ctx.beginPath();
+                _ctx.arc(_currentBlueprint.points[i].x, _currentBlueprint.points[i].y, 3, 0, Math.PI * 2);
+                _ctx.fill();
             }
-
-            for (let i = 0; i < _points.length; i++) {
-                _ctx.lineTo(_points[i].x, _points[i].y);
-            }
-
-            _ctx.stroke();
         }
     };
 
@@ -83,14 +69,16 @@ const app = (function() {
             if (!_currentBlueprint) return;
 
             const rect = _canvas.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
+            const x = Math.round(event.clientX - rect.left);
+            const y = Math.round(event.clientY - rect.top);
 
-            _points.push({ x, y });
+            const newPoint = { x, y };
+
+            _currentBlueprint.points.push(newPoint);
 
             _renderBlueprint();
 
-            console.log(`Point added: (${x}, ${y})`);
+            console.log(`Point added to blueprint ${_currentBlueprint.name}: (${x}, ${y})`);
         });
     };
 
@@ -127,7 +115,6 @@ const app = (function() {
         getBlueprintByAuthorAndName: function(author, blueprintName) {
             _module.getBlueprintsByNameAndAuthor(author, blueprintName, function(blueprint) {
                 _currentBlueprint = blueprint;
-                _points = [];
                 _renderBlueprint();
             });
         }
