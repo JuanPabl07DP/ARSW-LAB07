@@ -17,6 +17,8 @@ En el archivo app.js, se implementó el método _initCanvasEvents. Este método 
 
 En el mismo método _initCanvasEvents, cuando se captura un clic en el canvas, se agrega el punto a la lista de puntos del plano actual (_currentBlueprint.points) y se llama al método _drawBlueprint para redibujar el canvas.
 
+![](img/1.gif)
+
 3. Agregue el botón Save/Update. Respetando la arquitectura de módulos actual del cliente, haga que al oprimirse el botón:
     1. Se haga PUT al API, con el plano actualizado, en su recurso REST correspondiente.
     2. Se haga GET al recurso /blueprints, para obtener de nuevo todos los planos realizados.
@@ -55,12 +57,16 @@ En el archivo app.js, se implementó el método saveCurrentBlueprint. Este méto
 
 En el archivo app.js, se implementó el método createNewBlueprintt. Este método limpia el canvas, solicita el nombre del nuevo plano y realiza una petición POST para crear el plano.
 
+![](img/2.gif)
+
 5. Agregue el botón 'DELETE', de manera que (también con promesas):
     * Borre el canvas.
     * Haga DELETE del recurso correspondiente.
     * Haga GET de los planos ahora disponibles.
 
 En el archivo app.js, se implementó el método deleteCurrentBlueprint. Este método realiza una petición DELETE para eliminar el plano y luego una petición GET para actualizar la lista de planos.
+
+![](img/3.gif)
 
 ### Criterios de evaluación
 
