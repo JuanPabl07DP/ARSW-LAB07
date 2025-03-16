@@ -1,35 +1,47 @@
-// API Client Module
+// API Client Module with Promises
 const apiclient = (function() {
     const apiBaseURL = "/blueprints";
 
     return {
-        getBlueprintsByAuthor: function(authorName, callback) {
-            $.ajax({
+        getBlueprintsByAuthor: function(authorName) {
+            return $.ajax({
                 url: `${apiBaseURL}/${authorName}`,
                 type: 'GET',
-                contentType: "application/json",
-                success: function(data) {
-                    callback(data);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error getting blueprints:', error);
-                    alert("Error loading blueprints: " + xhr.responseText);
-                }
+                contentType: "application/json"
             });
         },
 
-        getBlueprintsByNameAndAuthor: function(authorName, bpname, callback) {
-            $.ajax({
+        getBlueprintsByNameAndAuthor: function(authorName, bpname) {
+            return $.ajax({
                 url: `${apiBaseURL}/${authorName}/${bpname}`,
                 type: 'GET',
-                contentType: "application/json",
-                success: function(data) {
-                    callback(data);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error getting blueprint:', error);
-                    alert("Error loading blueprint: " + xhr.responseText);
-                }
+                contentType: "application/json"
+            });
+        },
+
+        updateBlueprint: function(authorName, bpname, blueprint) {
+            return $.ajax({
+                url: `${apiBaseURL}/${authorName}/${bpname}`,
+                type: 'PUT',
+                data: JSON.stringify(blueprint),
+                contentType: "application/json"
+            });
+        },
+
+        createBlueprint: function(blueprint) {
+            return $.ajax({
+                url: apiBaseURL,
+                type: 'POST',
+                data: JSON.stringify(blueprint),
+                contentType: "application/json"
+            });
+        },
+
+        deleteBlueprint: function(authorName, bpname) {
+            return $.ajax({
+                url: `${apiBaseURL}/${authorName}/${bpname}`,
+                type: 'DELETE',
+                contentType: "application/json"
             });
         }
     };

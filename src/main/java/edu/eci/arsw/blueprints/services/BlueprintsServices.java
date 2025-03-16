@@ -9,7 +9,6 @@ import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.eci.arsw.blueprints.persistence.impl.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -25,15 +24,9 @@ public class BlueprintsServices {
     @Autowired
     BlueprintsPersistence bpp;
 
-    //    //Filtro de redundancia
     @Autowired
     @Qualifier("redundancyFilter")
     BlueprintFilter bpFilter;
-
-    //Filtro de submuestreo
-//    @Autowired
-//    @Qualifier("subsamplingFilter")
-//    BlueprintFilter bpFilter;
 
     public void addNewBlueprint(Blueprint bp) throws BlueprintPersistenceException {
         bpp.saveBlueprint(bp);
@@ -76,5 +69,16 @@ public class BlueprintsServices {
 
     public void updateBlueprint(Blueprint bp) throws BlueprintNotFoundException {
         bpp.updateBlueprint(bp);
+    }
+
+    /**
+     * Deletes a blueprint with the given author and name
+     *
+     * @param author blueprint's author
+     * @param name blueprint's name
+     * @throws BlueprintNotFoundException if there is no such blueprint
+     */
+    public void deleteBlueprint(String author, String name) throws BlueprintNotFoundException {
+        bpp.deleteBlueprint(author, name);
     }
 }
